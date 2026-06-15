@@ -5,19 +5,12 @@ include '../connection/dbconn.php';
 if (isset($_GET['id'])) {
     $id = (int) $_GET['id'];
 
-    $check = mysqli_query(
-        $conn,
-        "SELECT * FROM books WHERE id='$id'"
-    );
-
+    $check = mysqli_query($conn, "SELECT * FROM books WHERE id='$id'");
     $book = mysqli_fetch_assoc($check);
 
     if ($book['quantity'] > 0) {
         $newQty = $book['quantity'] - 1;
-
-        $status = ($newQty == 0)
-            ? "Borrowed"
-            : "Available";
+        $status = ($newQty == 0) ? "Borrowed" : "Available";
 
         $sql = "
             UPDATE books
@@ -33,5 +26,3 @@ if (isset($_GET['id'])) {
     header("Location: ../index.php");
     exit();
 }
-
-?>
